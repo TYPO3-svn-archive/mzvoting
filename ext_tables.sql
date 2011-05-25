@@ -68,6 +68,7 @@ CREATE TABLE tx_mzvoting_votings (
 	starttime int(11) DEFAULT '0' NOT NULL,
 	endtime int(11) DEFAULT '0' NOT NULL,
 	name tinytext,
+	options int(11) DEFAULT '0' NOT NULL,
 	description text,
 	
 	PRIMARY KEY (uid),

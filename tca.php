@@ -297,6 +297,14 @@ $TCA['tx_mzvoting_votings'] = array (
 				'size' => '30',
 			)
 		),
+		'options' => array (		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:mzvoting/locallang_db.xml:tx_mzvoting_votings.options',		
+			'config' => array (
+				'type' => 'input',	
+				'size' => '15',
+			)
+		),
 		'description' => array (		
 			'exclude' => 0,		
 			'label' => 'LLL:EXT:mzvoting/locallang_db.xml:tx_mzvoting_votings.description',		
@@ -308,7 +316,7 @@ $TCA['tx_mzvoting_votings'] = array (
 		),
 	),
 	'types' => array (
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, description')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, name, options, description')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => 'starttime, endtime')

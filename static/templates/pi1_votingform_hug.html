@@ -13,34 +13,39 @@
 		<div class="tx_mzvoting_pi1_border_top"></div>
 		<div class="tx_mzvoting_pi1_border_content">
 			<h1>Vote for your favorite project and win an alliance watch</h1>
-			<form name="tx_mzvoting_pi1_votingform" action="###ACTION###" method="###METHOD###">
+			<form name="tx_mzvoting_pi1_votingform" class="tx_mzvoting_pi1_votingform" action="###ACTION###" method="###METHOD###">
 				<div>
-					<label for="tx_mzvoting_pi1_votingform_email">E-Mail</label>
-					<input id="tx_mzvoting_pi1_votingform_email" name="tx_mzvoting_pi1_votingform[email]" type="text" /><br />
-					<span>We will send a link to activate your vote to this address</span>
+					<label for="tx_mzvoting_pi1_votingform_email" class="tx_mzvoting_pi1_votingform_label_input">E-Mail</label>
+					<input id="tx_mzvoting_pi1_votingform_email" class="tx_mzvoting_pi1_votingform_input" name="tx_mzvoting_pi1_votingform[email]" type="text" />
+					<div class="clear"></div>
+					<span class="tx_mzvoting_pi1_votingform_info">We will send a link to activate your vote to this address</span>
 				</div>
-			<div>
-				<label for="tx_mzvoting_pi1_votingform_firstname">Surname</label>
-				<input id="tx_mzvoting_pi1_votingform_firstname" name="tx_mzvoting_pi1_votingform[firstname]" type="text" />
-			</div>
-			<div>
-				<label for="tx_mzvoting_pi1_votingform_lastname">Lastname</label>
-				<input id="tx_mzvoting_pi1_votingform_lastname" name="tx_mzvoting_pi1_votingform[lastname]" type="text" />
-			</div>
-			<div>		
-				<label for="tx_mzvoting_pi1_votingform_phone">Phone</label>
-				<input id="tx_mzvoting_pi1_votingform_phone" name="tx_mzvoting_pi1_votingform[phone]" type="text" />
-			</div>
-			<div>
-				<input id="tx_mzvoting_pi1_votingform_newsletter" name="tx_mzvoting_pi1_votingform[newsletter]" type="checkbox" value="1"/>
-				<label for="tx_mzvoting_pi1_votingform_newsletter">I like to be informed and receive the Newsletter</label>
-			</div>
+				<div class="clear"></div>
+				<div>
+					<label for="tx_mzvoting_pi1_votingform_firstname" class="tx_mzvoting_pi1_votingform_label_input">Surname</label>
+					<input id="tx_mzvoting_pi1_votingform_firstname" class="tx_mzvoting_pi1_votingform_input" name="tx_mzvoting_pi1_votingform[firstname]" type="text" />
+				</div>
+				<div class="clear"></div>
+				<div>
+					<label for="tx_mzvoting_pi1_votingform_lastname" class="tx_mzvoting_pi1_votingform_label_input">Lastname</label>
+					<input id="tx_mzvoting_pi1_votingform_lastname" class="tx_mzvoting_pi1_votingform_input" name="tx_mzvoting_pi1_votingform[lastname]" type="text" />
+				</div>
+				<div class="clear"></div>
+				<div>		
+					<label for="tx_mzvoting_pi1_votingform_phone" class="tx_mzvoting_pi1_votingform_label_input">Phone</label>
+					<input id="tx_mzvoting_pi1_votingform_phone" class="tx_mzvoting_pi1_votingform_input" name="tx_mzvoting_pi1_votingform[phone]" type="text" />
+				</div>
+				<div class="clear"></div>
+				<div>
+					<input id="tx_mzvoting_pi1_votingform_newsletter" class="tx_mzvoting_pi1_votingform_checkbox" name="tx_mzvoting_pi1_votingform[newsletter]" type="checkbox" value="1"/>
+					<label for="tx_mzvoting_pi1_votingform_newsletter">I like to be informed and receive the Newsletter</label>
+				</div>
 	
-			###COUNTRY###
-			###TERMSANDCONDITIONS###
-		
-			<input id="tx_mzvoting_pi1_votingform_data" name="tx_mzvoting_pi1_votingform[data]" type="hidden" value="sent" />
-			<input id="tx_mzvoting_pi1_votingform_submit" name="tx_mzvoting_pi1_votingform[submit]" type="submit" />
+				###COUNTRY###
+				###TERMSANDCONDITIONS###
+			
+				<input id="tx_mzvoting_pi1_votingform_data" name="tx_mzvoting_pi1_votingform[data]" type="hidden" value="sent" />
+				<input id="tx_mzvoting_pi1_votingform_submit" name="tx_mzvoting_pi1_votingform[submit]" type="submit" />
 		
 			</form>
 		</div>
@@ -129,7 +134,14 @@
 	<!-- ###ACTIVATIONERROR### end -->
 	
 
-
+		
+	<h3>The Voting Button</h3>
+	<p>link to the voting form</p>
+	<!-- ###VOTEBUTTON### begin -->	
+		<p>click here to vote</p>	
+		<p><a href="###LINK###">###LINK###</a></p>
+	<!-- ###VOTEBUTTON### end -->
+	
 
 
 

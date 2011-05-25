@@ -31,6 +31,7 @@
 			<label index="tx_mzvoting_ranking.voting_id">Voting Name</label>
 			<label index="tx_mzvoting_votings">Votings</label>
 			<label index="tx_mzvoting_votings.name">Name</label>
+			<label index="tx_mzvoting_votings.options"># of Options</label>
 			<label index="tx_mzvoting_votings.description">Description</label>
 			<label index="tx_mzvoting_recomends">Recomends</label>
 			<label index="tx_mzvoting_recomends.from_mail">Sender email</label>

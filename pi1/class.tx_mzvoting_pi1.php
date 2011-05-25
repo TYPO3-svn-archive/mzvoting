@@ -51,8 +51,11 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 	 * @return	The content that is displayed on the website
 	 */
 	function main($content, $conf) {
-		$this->conf = $conf;
-		$this->pi_setPiVarDefaults();
+		//$this->conf = $conf;
+		//$this->pi_setPiVarDefaults();
+		
+		$this->load_config($conf);
+		
 		$this->pi_loadLL();
 		
 		$this->getVars = t3lib_div::_GET('tx_mzvoting');
@@ -71,11 +74,13 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 				/** confirm a vote **/
 				$content = $this->confirmation_handler();
 				break;
-			case 1:				
-				/** fall trough **/
-			default: 
+			case 1:		
 				/** display the form **/
 				$content = $this->form_handler();
+				break;
+			default: 
+				/** display the button **/
+				$content = $this->show_button();
 				break;
 		}
 	
@@ -471,24 +476,24 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		$uid = intval(hexdec(substr($this->getVars['vote'],2)));
 		$secret = trim($this->getVars['code']);
 		
-		//check if entry exists
-		
+		//check if entry exists		
 		$res = $GLOBALS["TYPO3_DB"]->exec_SELECTgetRows ("uid, hidden, confirm_time",
 													   "tx_mzvoting_votes",
 													   "uid = $uid AND secret = '$secret'"
 													   );
+		//ok it is there...
 		if($res > 0) {
 			if($res['deleted'] == 1) {
-				// entry deleted
+				// ...but entry is flaged as deleted
 				$error =  $this->report_error("3");
 			} elseif($res['hidden'] == 0) {
-				// entry is active
+				// ...but entry allready active
 				$error =  $this->report_error("4");				
 			} elseif($res['confirm_time'] > 0) {
-				// entry has been deactivatet after confirmation
+				// ...but entry has been deactivatet after confirmation
 				$error =  $this->report_error("5");				
 			} else {
-				//ok looks good
+				// ... and it looks good
 					  
 				$datatostore['tstamp'] = time();				  
 				$datatostore['hidden'] = '0';
@@ -509,11 +514,13 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 					t3lib_div::debug($update);
 				}
 				if($update) {
+					//update was sucessfull
+					
 					
 					// Extract subparts from the template
 					$subpart = $this->cObj->getSubpart($this->templateHtml, '###ACTIVATIONOK###');// Fill marker array
 					
-					//nomarkers jet
+					//nomarkers yet
 					//$markerArray['###MARKER###'] = '';
 					
 					//render
@@ -523,12 +530,12 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 					
 					return($return);
 				} else {
-					//mysql update fail
+					//ooops the mysql update faild
 					$error =  $this->report_error("2");
 				}
 			}
 		} else {
-			// no such entry found
+			//ooops, no such entry here
 			$error =  $this->report_error("1");
 		}
 			
@@ -550,15 +557,104 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 	
 	
 	/**
-	 * funktionsvorlage zum kopieren
+	 * this function is called in case of an error
+	 * prepared for later functions
 	 *
-	 * @param	string		$content: The PlugIn content
+	 * @param	string		$errorcode: the errorcode
 	 *
-	 * @return	the voting form
+	 * @return	string		the redered error output
 	 */
 	function report_error($errorcode) {
 		
 		$return = $errorcode;
+		
+		return($return);
+	
+	}
+	
+	
+	   /**
+    * Init Function: here all the needed configuration values are stored in class variables
+
+    *
+    * @param    array   $conf: configuration array from TS
+    * @return   void
+
+    */
+   function load_config($conf) {
+      $this->conf = $conf; // Store configuration
+
+      $this->pi_setPiVarDefaults(); // Set default piVars from TS
+      $this->pi_initPIflexForm(); // Init FlexForm configuration for plugin
+
+      // Read extension configuration
+      $extConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$this->extKey]);
+
+      if (is_array($extConf)) {
+         $conf = t3lib_div::array_merge($extConf, $conf);
+
+      }
+
+      // Read TYPO3_CONF_VARS configuration
+      $varsConf = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey];
+
+      if (is_array($varsConf)) {
+
+         $conf = t3lib_div::array_merge($varsConf, $conf);
+
+      }
+
+      // Read FlexForm configuration
+      if ($this->cObj->data['pi_flexform']['data']) {
+
+         foreach ($this->cObj->data['pi_flexform']['data'] as $sheetName => $sheet) {
+
+            foreach ($sheet as $langName => $lang) {
+               foreach(array_keys($lang) as $key) {
+
+                  $flexFormConf[$key] = $this->pi_getFFvalue($this->cObj->data['pi_flexform'], 
+                                                             $key, $sheetName, $langName);
+
+                  if (!$flexFormConf[$key]) {
+                     unset($flexFormConf[$key]);
+
+                  }
+               }
+            }
+         }
+      }
+
+      if (is_array($flexFormConf)) {
+
+         $conf = t3lib_div::array_merge($conf, $flexFormConf);
+      }
+
+      $this->conf = $conf;
+
+   }
+	
+	
+	/**
+	 * displays the vote button
+	 *
+	 * @return	string		the html code
+	 */
+	function show_button() {
+			
+		// Extract subparts from the template
+		$subpart = $this->cObj->getSubpart($this->templateHtml, '###VOTEBUTTON###');// Fill marker array
+		
+		
+		$linkparams['tx_mzvoting']['action']= '1'; //vote
+		
+		
+		//nomarkers jet
+		$markerArray['###LINK###'] = $this->cObj->getTypoLink_URL($GLOBALS["TSFE"]->id,$linkparams);
+		
+		//render
+		$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+		
+		
 		
 		return($return);
 	
