@@ -1,0 +1,7 @@
+plugin.mzvoting {
+ # cat=plugin.mzvoting/file; type=string; label=tempalte for the votingform;
+ file.pi1_tempalte = EXT:mzvoting/static/templates/pi1_votingform.html
+ 
+ # cat=plugin.mzvoting/file; type=string; label=tempalte for the votingform;
+ file.terms = EXT:mzvoting/res/infofiles/set_terms_params.html
+}

@@ -1,0 +1,44 @@
+plugin.tx_mzvoting_pi1 {
+	templateFile = {$plugin.mzvoting.file.pi1_tempalte}
+	votestorage = 0
+	
+	terms {
+		active = 1
+		params = {$plugin.mzvoting.file.terms}
+	}
+	country {
+		active = 1
+	}
+	debug {
+		active = 0
+		level = 5
+	}
+	data {
+		require {
+			email = 1
+			firstname = 1
+			lastname = 1
+			terms = 1
+		}
+		error {
+			email = The E-Mail field is required<br>
+			firstname = The Surname field is required<br>
+			lastname =  The Lastname field is required<br>
+			terms = Please agree to our Terms & Conditions
+		}
+	}
+	mail {
+		sender = noreply@example.com
+		sendername = mzvoting extension
+		senderorganisation = TYPO3
+		returnpath = noreply@example.com
+		copy {
+			active = 0
+			receiver = noreply@example.com
+		}
+		reply = mail@example.com
+		replyname = webmaster
+		
+	}
+}
+

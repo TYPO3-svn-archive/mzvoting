@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'mzvoting'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_mzvoting_votes">Votes</label>
+			<label index="tx_mzvoting_votes.email">Email</label>
+			<label index="tx_mzvoting_votes.firstname">Firstname</label>
+			<label index="tx_mzvoting_votes.lastname">Lastname</label>
+			<label index="tx_mzvoting_votes.vote">Vote for</label>
+			<label index="tx_mzvoting_votes.phone">Phone</label>
+			<label index="tx_mzvoting_votes.country">Country</label>
+			<label index="tx_mzvoting_votes.terms">T and C</label>
+			<label index="tx_mzvoting_votes.newsletter">Newsletter</label>
+			<label index="tx_mzvoting_votes.additional_data">Additional Data</label>
+			<label index="tx_mzvoting_votes.vote_ip">IP when Voting</label>
+			<label index="tx_mzvoting_votes.confirm_ip">IP when confirming</label>
+			<label index="tx_mzvoting_votes.vote_time">time of vote</label>
+			<label index="tx_mzvoting_votes.confirm_time">Time of confirmation</label>
+			<label index="tx_mzvoting_votes.vote_referer">Referer when voting</label>
+			<label index="tx_mzvoting_votes.confirm_referer">Referer when confirming</label>
+			<label index="tx_mzvoting_votes.vote_browser">Browser info when voting</label>
+			<label index="tx_mzvoting_votes.confirm_browser">Browser info when confirming</label>
+			<label index="tx_mzvoting_votes.secret">Confirmation Seecret</label>
+			<label index="tx_mzvoting_votes.voting">Coresponding Voting</label>
+			<label index="tx_mzvoting_ranking">Ranking</label>
+			<label index="tx_mzvoting_ranking.ranking_data">Ranking Data</label>
+			<label index="tx_mzvoting_ranking.voting_id">Voting Name</label>
+			<label index="tx_mzvoting_votings">Votings</label>
+			<label index="tx_mzvoting_votings.name">Name</label>
+			<label index="tx_mzvoting_votings.description">Description</label>
+			<label index="tx_mzvoting_recomends">Recomends</label>
+			<label index="tx_mzvoting_recomends.from_mail">Sender email</label>
+			<label index="tx_mzvoting_recomends.from_name">Sender Name</label>
+			<label index="tx_mzvoting_recomends.to_mail">Receiver email</label>
+			<label index="tx_mzvoting_recomends.vote">Coresponding Vote</label>
+			<label index="tx_mzvoting_recomends.status">Mail status</label>
+			<label index="tx_mzvoting_recomends.send_time">Time when Mail has been sent</label>
+			<label index="tt_content.list_type_pi1">Votingform</label>
+			<label index="tt_content.list_type_pi2">Votingresults</label>
+		</languageKey>
+	</data>
+</T3locallang>

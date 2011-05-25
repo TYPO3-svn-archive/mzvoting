@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>mzvoting_pi1 votingform template</title>
+</head>
+
+<body>
+	<h3>Votingorm template</h3>
+	<p>This is the template for the voting form</p>
+	<!-- ###VOTINGFORM### begin -->
+	<div id="tx_mzvoting_pi1">
+		<div class="tx_mzvoting_pi1_border_top"></div>
+		<div class="tx_mzvoting_pi1_border_content">
+			<h1>Vote for your favorite project and win an alliance watch</h1>
+			<form name="tx_mzvoting_pi1_votingform" action="###ACTION###" method="###METHOD###">
+				<div>
+					<label for="tx_mzvoting_pi1_votingform_email">E-Mail</label>
+					<input id="tx_mzvoting_pi1_votingform_email" name="tx_mzvoting_pi1_votingform[email]" type="text" /><br />
+					<span>We will send a link to activate your vote to this address</span>
+				</div>
+			<div>
+				<label for="tx_mzvoting_pi1_votingform_firstname">Surname</label>
+				<input id="tx_mzvoting_pi1_votingform_firstname" name="tx_mzvoting_pi1_votingform[firstname]" type="text" />
+			</div>
+			<div>
+				<label for="tx_mzvoting_pi1_votingform_lastname">Lastname</label>
+				<input id="tx_mzvoting_pi1_votingform_lastname" name="tx_mzvoting_pi1_votingform[lastname]" type="text" />
+			</div>
+			<div>		
+				<label for="tx_mzvoting_pi1_votingform_phone">Phone</label>
+				<input id="tx_mzvoting_pi1_votingform_phone" name="tx_mzvoting_pi1_votingform[phone]" type="text" />
+			</div>
+			<div>
+				<input id="tx_mzvoting_pi1_votingform_newsletter" name="tx_mzvoting_pi1_votingform[newsletter]" type="checkbox" value="1"/>
+				<label for="tx_mzvoting_pi1_votingform_newsletter">I like to be informed and receive the Newsletter</label>
+			</div>
+	
+			###COUNTRY###
+			###TERMSANDCONDITIONS###
+		
+			<input id="tx_mzvoting_pi1_votingform_data" name="tx_mzvoting_pi1_votingform[data]" type="hidden" value="sent" />
+			<input id="tx_mzvoting_pi1_votingform_submit" name="tx_mzvoting_pi1_votingform[submit]" type="submit" />
+		
+			</form>
+		</div>
+		<div class="tx_mzvoting_pi1_border_bottom"></div>
+	</div>
+	<!-- ###VOTINGFORM### end -->
+	
+	
+	
+	<h3>Terms & Conditions</h3>
+	<p>template for the Terms& conditions part of the voting form</p>
+	<!-- ###TERMS### begin -->
+		<div>
+		<label for="tx_mzvoting_pi1_votingform_terms">I understood and agree to the <a href="###TERMSANDCONDITIONSURL###" target="blank" title="Termns and Conditions">terms and conditions</a></label>
+		<input id="tx_mzvoting_pi1_votingform_terms" name="tx_mzvoting_pi1_votingform[terms]" type="checkbox" value="1"/>
+		</div>
+	<!-- ###TERMS### end -->
+	
+	
+	
+	<h3>Country Selector</h3>
+	<p>template for the Countryseclector in the voting form</p>
+	<!-- ###COUNTRIESELECTOR### begin -->	
+		<div>
+		<label for="tx_mzvoting_pi1_votingform_country">Country</label>
+		<select id="tx_mzvoting_pi1_votingform_country" name="tx_mzvoting_pi1_votingform[country]" >
+			<option value="">Country</option>
+			###OPTIONS###
+		</select>
+		</div>
+	<!-- ###COUNTRIESELECTOR### end -->
+	
+	
+	
+	<h3>Voting activation mail HTML</h3>
+	<p>template for the mail with the activation Link</p>
+	<!-- ###HTMLVOTINGCONFIRMATIONMAIL### begin -->	
+		<p>Dear ###FIRSTNAME### ###LASTNAME###</p>
+		<p>thx for the vote</p>
+		<p>To activate your vote please follow this Link<br />
+		<a href="###ACTIVATIONURL###" target="_blank">###ACTIVATIONURL###</a></p>
+		<p>Regards</p>
+	<!-- ###HTMLVOTINGCONFIRMATIONMAIL### end -->
+	
+	
+	
+	<h3>Voting activation mail TEXT</h3>
+	<p>template for the mail with the activation Link</p>
+	<!-- ###TXTVOTINGCONFIRMATIONMAIL### begin -->	
+		Dear ###FIRSTNAME### ###LASTNAME###
+		
+		To activate your vote visit: ###ACTIVATIONURL###
+		
+		Regards
+	<!-- ###TXTVOTINGCONFIRMATIONMAIL### end -->
+
+
+	
+	
+	
+	<h3>24h Error</h3>
+	<p>template for the 24h HTML Error output</p>
+	<!-- ###24HERROR### begin -->	
+		<p>Please come back in ###HOURS###h ###MINUTES###min ###SECONDS###sec</p>
+	<!-- ###24HERROR### end -->
+
+
+	
+	
+	
+	<h3>Activation OK</h3>
+	<p>Message for successfull vote activation</p>
+	<!-- ###ACTIVATIONOK### begin -->	
+		<p>Your vote is now active</p>
+	<!-- ###ACTIVATIONOK### end -->
+	
+
+
+	
+	
+	
+	<h3>Activation fail</h3>
+	<p>Message for successfull vote activation</p>
+	<!-- ###ACTIVATIONERROR### begin -->	
+		<p>Opps, Error</p>
+	<!-- ###ACTIVATIONERROR### end -->
+	
+
+
+
+
+
+
+
+</body>
+</html>
