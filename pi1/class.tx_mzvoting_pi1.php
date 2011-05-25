@@ -146,10 +146,12 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 	/**
 	 * renders the form
-	 *
+	 * 
+	 * @param	array	$formdata	available values
+	 * @param	string	$errormsg	error message
 	 * @return	the		voting form
 	 */
-	function get_votingform() {
+	function get_votingform($formdata = '', $errormsg = '') {
 
 		// Extract subparts from the template
 		$subpart = $this->cObj->getSubpart($this->templateHtml, '###VOTINGFORM###');
@@ -157,6 +159,7 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		// Fill marker array
 		$markerArray['###ACTION###'] = ''; //[todo] define by typoscript/constants
 		$markerArray['###METHOD###'] = 'post'; //[todo] define by typoscript/constants
+		$markerArray['###ERROR###'] = $errormsg; 
 
 
 		$markerArray['###COUNTRY###']  =  $this->render_countries();
@@ -285,8 +288,18 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 
 		if($errors > 0 ) {
-			$return = $errormsg;
-			$return .= $this->get_votingform();
+
+			if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
+				t3lib_div::debug($this->conf['data.']['errorwrap']);
+			}
+			
+			$wrap = explode("|", $this->conf['data.']['errorwrap']);
+
+			if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
+				t3lib_div::debug($wrap);
+			}
+			
+			$return .= $this->get_votingform($formdata,$wrap[0].$errormsg.$wrap[1]);
 		} else {
 			//votet in the past 24 hours with this email?
 			$existing_records = $this->check_for_existing_votes($formdata['email']);

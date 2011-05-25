@@ -21,11 +21,12 @@ plugin.tx_mzvoting_pi1 {
 			terms = 1
 		}
 		error {
-			email = The E-Mail field is required<br>
-			firstname = The Surname field is required<br>
-			lastname =  The Lastname field is required<br>
-			terms = Please agree to our Terms & Conditions
+			email = <div class="tx_mzvoting_pi1_error">The E-Mail field is required</div>
+			firstname = <div class="tx_mzvoting_pi1_error">The Surname field is required</div>
+			lastname =  <div class="tx_mzvoting_pi1_error">The Lastname field is required</div>
+			terms = <div class="tx_mzvoting_pi1_error">Please agree to our Terms & Conditions</div>
 		}
+		errorwrap = <div class="tx_mzvoting_pi1_formerrorwrap">|</div>
 	}
 	mail {
 		sender = noreply@example.com
@@ -39,6 +40,21 @@ plugin.tx_mzvoting_pi1 {
 		reply = mail@example.com
 		replyname = webmaster
 		
+	}
+}
+
+plugin.tx_mzvoting_pi2 {
+	templateFile = {$plugin.mzvoting.file.pi2_tempalte}
+	debug {
+		active = 0
+		level = 5
+	}
+	single {
+		optionid = 0
+	}
+	
+	compleet {
+		votingid = 0
 	}
 }
 
