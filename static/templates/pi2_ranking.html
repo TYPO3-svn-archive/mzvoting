@@ -15,7 +15,11 @@
 	###DATETIME### DATE & TIME of the Ranking</p>
 	<!-- ###COMPLETERANKING### begin -->	
 		<div>###DATETIME###</div>	
-		<div>###ENTRIES###</div>
+		<div class="tx_mzvoting_pi1_ranking_wrap">
+			<ul>
+				###ENTRIES###
+			</ul>
+		</div>
 	<!-- ###COMPLETERANKING### end -->
 	
 	<hr/>
@@ -25,10 +29,28 @@
 	<p>###POSITION### the ranking entries<br />
 	###TOTALVOTES### the ranking entries<br />
 	###TREND### the ranking entries<br />
-	###OPTIONNAME### the ranking entries</p>
+	###OPTIONNAME### the ranking entries<br />
+	###OPTIONLINK### link to page set in TS</p>
 	<!-- ###COMPLETERANKINGENTRIE### begin -->	
-		<div>###TREND###, ###POSITION###, ###OPTIONNAME###, ###TOTALVOTES###</div>
+		<li class="tx_mzvoting_pi1_ranking_wrap_###POSITION###"><a class="tx_mzvoting_pi1_ranking_###TREND### tx_mzvoting_pi1_ranking_###POSITION###" href="###OPTIONLINK###" >###POSITION###. ###OPTIONNAME###</a></li>
 	<!-- ###COMPLETERANKINGENTRIE### end -->
+	
+	<hr/>
+	
+	<h3>Single Ranking</h3>
+	<p>template for the single ranking view</p>
+	<p>###POSITION### the ranking entries<br />
+	###TOTALVOTES### the ranking entries<br />
+	###TREND### the ranking entries<br />
+	###OPTIONNAME### the ranking entries</p>
+	<!-- ###SINGLERANKING### begin -->	
+		
+		<div class="tx_mzvoting_pi1_ranking_current">
+			<h2>Current ranking</h2>
+			<p class="tx_mzvoting_pi1_ranking_current_###TREND###">Place ###POSITION###</p><p>
+		</p></div>
+		
+	<!-- ###SINGLERANKING### end -->
 	
 	
 	

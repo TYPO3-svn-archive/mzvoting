@@ -59,13 +59,8 @@ class tx_mzvoting_pi2 extends tslib_pibase {
 		
 	
 	
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($this->conf);
-		}
-	
 		// Get the template
 		$this->templateHtml = $this->cObj->fileResource($this->conf['templateFile']);
-	
 	
 		switch($this->conf['display']) {
 			case 1:
@@ -153,7 +148,10 @@ class tx_mzvoting_pi2 extends tslib_pibase {
 	 * @param	string		$content: The PlugIn content
 	 * @return	the		voting form
 	 */
-	function get_complete_ranking() {
+	function get_complete_ranking() {	
+	
+		
+		
 		
 		if(empty($this->conf['votingid'])) {
 			$return = 'Please define voting id';			
@@ -168,21 +166,79 @@ class tx_mzvoting_pi2 extends tslib_pibase {
 			// Extract subparts from the template
 			$entrie_subpart = $this->cObj->getSubpart($this->templateHtml, '###COMPLETERANKINGENTRIE###');
 			
+		
 			
-			for($i=1; $i<= $rankingdata['nrofoptions']; $i++) {
+			for($i=1; $i <= $rankingdata['nrofoptions']; $i++) {
 				
-				$curent_entry = $rankingdata['option'][$rankingdata['ranking']['$i']];
+				$curent_entry = $rankingdata['options'][$rankingdata['ranking'][$i]];
+				
+				
 		
 				// Fill marker array
-				$markerArray['###POSITION###'] = $curent_entry['position']; 
+				$markerArray['###POSITION###'] = $curent_entry['ranking']; 
 				$markerArray['###TOTALVOTES###'] = $curent_entry['totalvotes']; 
 				$markerArray['###TREND###'] = $curent_entry['trend']; 		
-				$markerArray['###OPTIONNAME###']  =  $curent_entry['name'];
+				$markerArray['###OPTIONNAME###']  =  $this->conf['votings.'][$this->conf['votingid'].'.']['options.'][$rankingdata['ranking'][$i].'.']['name'];	
+				$markerArray['###OPTIONLINK###'] = $this->cObj->getTypoLink_URL($this->conf['votings.'][$this->conf['votingid'].'.']['options.'][$rankingdata['ranking'][$i].'.']['link']);
 		
 				// Create the content by replacing the content markers in the template
 				$entries .= $this->cObj->substituteMarkerArrayCached($entrie_subpart, $markerArray)."\n";
 				
 			}
+			$subpart = $this->cObj->getSubpart($this->templateHtml, '###COMPLETERANKING###');
+			
+					
+			$markerArray['###ENTRIES###']  =  $entries;
+			$markerArray['###DATETIME###']  =  $rankingtime;
+			$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+		}
+
+		return($return);
+
+	}
+
+	/**
+	 * funktionsvorlage zum kopieren
+	 *
+	 * @param	string		$content: The PlugIn content
+	 * @return	the		voting form
+	 */
+	function get_single_ranking() {
+		
+					
+			
+			
+			
+		if(empty($this->conf['votingid']) || empty($this->conf['optionid'])) {
+			$return = '';
+			
+			if(empty($this->conf['votingid'])) {
+				$return .= 'Please define voting id';
+			} 
+			
+			if(empty($this->conf['optionid'])) {
+				$return .= 'Please define option id';
+			} 
+								 
+		} else {
+			
+			$rankingrow = $GLOBALS["TYPO3_DB"]->exec_SELECTgetRows("crdate, ranking_data", "tx_mzvoting_ranking", "voting_id = ".$this->conf['votingid'], "", "crdate DESC LIMIT 1");
+			
+			$rankingtime = date("d.m.Y H:i:s", $rankingrow[0]['crdate']);
+			$rankingdata = unserialize($rankingrow[0]['ranking_data']);
+			
+			
+			$subpart = $this->cObj->getSubpart($this->templateHtml, '###SINGLERANKING###');
+		
+			// Fill marker array
+			$markerArray['###POSITION###'] = $rankingdata['options'][$this->conf['optionid']]['ranking']; 
+			$markerArray['###TOTALVOTES###'] = $rankingdata['options'][$this->conf['optionid']]['totalvotes']; 
+			$markerArray['###TREND###'] = $rankingdata['options'][$this->conf['optionid']]['trend']; 		
+			$markerArray['###OPTIONNAME###']  =  $this->conf['votings.'][$this->conf['votingid'].'.']['options.'][$this->conf['optionid'].'.']['name'];	
+			$markerArray['###OPTIONLINK###'] = $this->cObj->getTypoLink_URL($this->conf['votings.'][$this->conf['votingid'].'.']['options.'][$this->conf['optionid'].'.']['link']);
+				
+			$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+			
 			
 		}
 
@@ -197,6 +253,10 @@ class tx_mzvoting_pi2 extends tslib_pibase {
 	 * @return	the		voting form
 	 */
 	function test() {
+		
+		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
+			t3lib_div::debug($this->templateHtml, 'template');
+		}
 
 		return($return);
 

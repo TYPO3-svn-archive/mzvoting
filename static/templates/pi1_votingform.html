@@ -85,11 +85,11 @@
 	<h3>Voting activation mail TEXT</h3>
 	<p>template for the mail with the activation Link</p>
 	<!-- ###TXTVOTINGCONFIRMATIONMAIL### begin -->	
-		Dear ###FIRSTNAME### ###LASTNAME###
-		
-		To activate your vote visit: ###ACTIVATIONURL###
-		
-		Regards
+Dear ###FIRSTNAME### ###LASTNAME###
+
+To activate your vote visit: ###ACTIVATIONURL###
+
+Regards
 	<!-- ###TXTVOTINGCONFIRMATIONMAIL### end -->
 
 
@@ -135,6 +135,51 @@
 		<p>click here to vote</p>	
 		<p><a href="###LINK###">###LINK###</a></p>
 	<!-- ###VOTEBUTTON### end -->
+	
+
+
+	
+	
+	
+	<h3>Tell a Friend</h3>
+	<p>vote confirmation & Tell a freind</p>
+	<!-- ###TELLAFRIEND### begin -->
+		<form name="tx_mzvoting_tellafriend" action="###ACTION###" method="###METHOD###">
+			<input id="tx_mzvoting_pi1_tellafriend_name" name="tx_mzvoting_pi1_tellafriend[name]" type="text"/>
+			<textarea id="tx_mzvoting_pi1_tellafriend_emails" name="tx_mzvoting_pi1_tellafriend[emails]"></textarea>
+			
+			<input id="tx_mzvoting_pi1_tellafriend_submit" name="tx_mzvoting_pi1_tellafriend[submit]" type="submit" value="TELL A FRIEND" />
+			
+			<input id="tx_mzvoting_pi1_tellafriend_id" name="tx_mzvoting_pi1_tellafriend[id]" type="hidden" value="###VID###" />
+			<input id="tx_mzvoting_pi1_tellafriend_secret" name="tx_mzvoting_pi1_tellafriend[secret]" type="hidden" value="###SECRET###" />
+		</form>	
+		<p>tell a friend follows here</p>	
+		<p>share project link<br /> <input type="text" value="###PROJECTLINK###"  /></p>
+		<div id="fb-root"></div><script src="http://connect.facebook.net/en_US/all.js#appId=126264157452971&amp;xfbml=1"></script><fb:like href="###PROJECTLINK###" send="true" layout="button_count" width="450" show_faces="false" action="recommend" font="arial"></fb:like>
+	<!-- ###TELLAFRIEND### end -->
+	
+
+
+	
+	
+	
+	<h3>Tell a friend ok</h3>
+	<p>Message for successfull vote activation</p>
+	<!-- ###TELLAFRIENDOK### begin -->	
+		<p>OK mails will be sent</p>
+	<!-- ###TELLAFRIENDOK### end -->
+	
+
+
+	
+	
+	
+	<h3>Tell a friend fail</h3>
+	<p>Message for successfull vote activation</p>
+	<!-- ###TELLAFRIENDERROR### begin -->	
+		<p>Opps, Error</p>	
+		<p>Errorcode: ###ERROR###</p>
+	<!-- ###TELLAFRIENDERROR### end -->
 	
 
 

@@ -89,6 +89,10 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		 */
 
 		switch ($this->getVars['action']) {
+			case '3':
+				/** confirm a vote **/
+				$content = $this->get_tellafriend_form();
+				break;
 			case 2:
 				/** confirm a vote **/
 				$content = $this->confirmation_handler();
@@ -115,9 +119,7 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 	 * @return	html		output
 	 */
 	function form_handler() {
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug();
-		}
+
 
 		/**
 		* Have we got any form data
@@ -128,6 +130,13 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 			**/
 
 			$return = $this->formdata_handler($_POST['tx_mzvoting_pi1_votingform']);
+
+		} elseif(isset($_POST['tx_mzvoting_pi1_tellafriend'])) {
+			/**
+			* do something with the data
+			**/
+
+			$return = $this->tellafriend_data_handler($_POST['tx_mzvoting_pi1_tellafriend']);
 
 		} else {
 			/**
@@ -218,16 +227,12 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 			$countries = $GLOBALS["TYPO3_DB"]->exec_SELECTgetRows("uid, cn_short_en", " static_countries", "1=1", "", "cn_short_en ASC");
 
-			if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 1) {
-				t3lib_div::debug($countries);
-			}
+
 
 			$countrie_options = '';
 			foreach($countries as $country) {
 				$countrie_options .= "\n" . '<option value="' . $country['uid'] . '">' . $country['cn_short_en'] . '</option>';
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($country);
-				}
+
 			}
 
 
@@ -256,9 +261,7 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 	 */
 	function formdata_handler($formdata) {
 
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($formdata);
-		}
+
 
 
 		$return = '';
@@ -269,9 +272,7 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 
 
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($this->conf['data.']['require.']);
-		}
+
 
 
 		// [TODO] IMPROVE VALIDATION
@@ -289,15 +290,11 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 		if($errors > 0 ) {
 
-			if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-				t3lib_div::debug($this->conf['data.']['errorwrap']);
-			}
+
 			
 			$wrap = explode("|", $this->conf['data.']['errorwrap']);
 
-			if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-				t3lib_div::debug($wrap);
-			}
+
 			
 			$return .= $this->get_votingform($formdata,$wrap[0].$errormsg.$wrap[1]);
 		} else {
@@ -317,9 +314,6 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 				unset($formdata['submit']);
 
 
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($formdata);
-				}
 
 				$datatostore['pid'] = intval($this->conf['votestorage']);
 				$datatostore['tstamp'] = time();
@@ -340,15 +334,13 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 
 				$datatostore['additional_data '] = serialize($formdata);
 
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($datatostore);
-				}
+
 
 
 				$insert = $GLOBALS["TYPO3_DB"]->exec_INSERTquery 	('tx_mzvoting_votes',$datatostore );
 				if($insert) {
 					$vid = mysql_insert_id();
-					$return = "new row with uid $uid<br>".$insert;
+					$return = $this->get_tellafriend_form($vid, $datatostore['secret']);
 
 					$this->send_confirmation_mail($datatostore['email'], $datatostore['firstname'], $datatostore['lastname'], $vid, $datatostore['secret']);
 				} else {
@@ -363,9 +355,7 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 				$next_time = $existing_records[0]['vote_time'] + (24*60*60);
 				$time_diff = $next_time - time();
 
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($existing_records[0]['vote_time']);
-				}
+
 
 
 				if($time_diff > 0) {
@@ -442,9 +432,6 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		$url = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $this->cObj->getTypoLink_URL($GLOBALS["TSFE"]->id,$linkparams);
 
 
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($this->cObj->getTypoLink_URL($GLOBALS["TSFE"]->id,$linkparams));
-		}
 
 		// Extract subparts from the template
 		$html_subpart = $this->cObj->getSubpart($this->templateHtml, '###HTMLVOTINGCONFIRMATIONMAIL###');
@@ -459,10 +446,6 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		// Create the content by replacing the content markers in the template
 		$html_mailcontent = $this->cObj->substituteMarkerArrayCached($html_subpart, $markerArray);
 		$txt_mailcontent = $this->cObj->substituteMarkerArrayCached($txt_subpart, $markerArray);
-
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($mailcontent);
-		}
 
 
 		$this->confirmationMail = t3lib_div::makeInstance('t3lib_htmlmail');
@@ -482,10 +465,6 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 		$this->confirmationMail->setHTML($this->confirmationMail->encodeMsg(/*$aEMailData['html_start'].*/$mailcontent/*.$aEMailData['html_end']*/));
 		$this->confirmationMail->send($mail);
 
-
-		if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-			t3lib_div::debug($this->confirmationMail);
-		}
 
 		return('true');
 
@@ -531,15 +510,8 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 				$datatostore['confirm_browser'] = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
 
 
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($datatostore);
-				}
-
 				$update = $GLOBALS["TYPO3_DB"]->exec_UPDATEquery("tx_mzvoting_votes","deleted = 0 AND uid = $uid AND secret = '$secret' AND confirm_time = ''", $datatostore);
 
-				if( $this->conf['debug.']['active'] == 1 && $this->conf['debug.']['level'] <= 2) {
-					t3lib_div::debug($update);
-				}
 				if($update) {
 					//update was sucessfull
 
@@ -691,8 +663,153 @@ class tx_mzvoting_pi1 extends tslib_pibase {
 	 * @param	string		$content: The PlugIn content
 	 * @return	the		voting form
 	 */
-	function test() {
+	function get_tellafriend_form($vid, $secret, $error='', $data=array()) {
 
+		// Extract subparts from the template
+		$subpart = $this->cObj->getSubpart($this->templateHtml, '###TELLAFRIEND###');// Fill marker array
+		
+		
+		
+		//$linkparams['tx_mzvoting']['action']= '1'; //vote
+		$url = 'http://' . $_SERVER['HTTP_HOST'] . '/' . $this->cObj->getTypoLink_URL($GLOBALS["TSFE"]->id);
+
+		
+		$markerArray['###ERROR###'] = $error;
+		$markerArray['###METHOD###'] = 'post';
+		$markerArray['###ACTION###'] = $this->cObj->getTypoLink_URL($GLOBALS["TSFE"]->id, array('no_cache' => 1, 'tx_mzvoting' => array ('action' => 1)));
+		$markerArray['###PROJECTLINK###'] = $url;
+		$markerArray['###SECRET###'] = $secret;
+		$markerArray['###VID###'] = decbin($vid);
+
+		//render
+		$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+
+
+
+		return($return);
+
+	}
+
+
+	/**
+	 * funktionsvorlage zum kopieren
+	 *
+	 * @param	string		$content: The PlugIn content
+	 * @return	the		voting form
+	 */
+	function tellafriend_data_handler($post_data) {
+		
+		$errors = '';
+		
+		
+		//check if vote exists 
+		$records = $GLOBALS["TYPO3_DB"]->exec_SELECTgetRows("uid, firstname, lastname, email, hidden", "tx_mzvoting_votes", "uid = '".mysql_real_escape_string(bindec($post_data['id']))."' AND secret = '".mysql_real_escape_string($post_data['secret'])."' AND deleted = 0", "", "uid DESC LIMIT 1");
+		
+
+			
+			
+		if(!empty($records)) {
+			//yes uid & secret are valid
+			
+			//check if is not in
+			$recomends = $GLOBALS["TYPO3_DB"]->exec_SELECTgetRows("uid, crdate", "tx_mzvoting_recomends", "vote = '".$records['uid']."'", "", "crdate ASC LIMIT 1");
+			
+			if(empty($recomends)) {
+				//ok first entry proceed
+				
+				$emails = explode(",", str_replace(" ", "", $post_data['emails']));
+				
+				//clear dupplicates
+				$emails = array_unique($emails);
+				
+
+				if(!empty($emails)) {
+					$errorcount = 0;
+					
+					$datatostore['pid'] = intval($this->conf['votestorage']);
+					$datatostore['tstamp'] = time();
+					$datatostore['crdate'] = time();
+					$datatostore['cruser_id'] = '0';
+					$datatostore['deleted'] = '0';
+					$datatostore['hidden'] = '0';
+					$datatostore['from_mail'] = $records['email'];
+					$datatostore['from_name'] = $records['firstname']." ".$records['lastname'];
+					$datatostore['vote'] = $records['uid'];
+					//check if vote has ben activatet
+					if($records['hidden'] == 1) {
+						//no, so dont activate mail
+						$datatostore['status'] = '0';
+					} else {
+						//yes, so activate mail
+						$datatostore['status'] = '1';
+					}	
+					
+					foreach($emails as $email_rec) {
+						
+											
+						$datatostore['to_mail'] = trim($email_rec);
+						
+						//insert the record
+						$insert = $GLOBALS["TYPO3_DB"]->exec_INSERTquery('tx_mzvoting_recomends',$datatostore );
+						
+												
+						if(!$insert) {
+							$errorcount ++;
+						}
+					}
+					
+					if($errorcount == 0) {
+						// Extract subparts from the template
+						$subpart = $this->cObj->getSubpart($this->templateHtml, '###TELLAFRIENDOK###');// Fill marker array
+				
+						//nomarkers jet
+						//$markerArray['###ERROR###'] = $error;
+				
+						//render
+						$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+						
+					
+						return($return);
+					} else {
+						$error = $this->report_error(8); //allready doubled the chance
+					}
+				}
+				
+				
+				
+			} else {
+				//opps cheating again
+				$error = $this->report_error(7); //allready doubled the chance								
+			}
+				
+			
+		} else {
+			$error = $this->report_error(6); //uid and secret not valid	
+		}
+		
+		
+		// Extract subparts from the template
+		$subpart = $this->cObj->getSubpart($this->templateHtml, '###TELLAFRIENDERROR###');// Fill marker array
+
+		//nomarkers jet
+		$markerArray['###ERROR###'] = $error;
+
+		//render
+		$return = $this->cObj->substituteMarkerArrayCached($subpart, $markerArray);
+		
+	
+		return($return);
+
+	}
+
+
+	/**
+	 * funktionsvorlage zum kopieren
+	 *
+	 * @param	string		$content: The PlugIn content
+	 * @return	the		voting form
+	 */
+	function test() {
 		return($return);
 
 	}

@@ -45,6 +45,15 @@
          </config>
         </TCEforms>
        </votingid>
+       <optionid>
+        <TCEforms>
+         <label>Option ID (single ranking only)</label>
+         <config>
+          <type>input</type>
+          <size>4</size>
+         </config>
+        </TCEforms>
+       </optionid>
       </el>
      </ROOT>
     </sDEF>

@@ -37,6 +37,7 @@
 			<label index="tx_mzvoting_recomends.from_mail">Sender email</label>
 			<label index="tx_mzvoting_recomends.from_name">Sender Name</label>
 			<label index="tx_mzvoting_recomends.to_mail">Receiver email</label>
+			<label index="tx_mzvoting_recomends.url">Remmoend URL</label>
 			<label index="tx_mzvoting_recomends.vote">Coresponding Vote</label>
 			<label index="tx_mzvoting_recomends.status">Mail status</label>
 			<label index="tx_mzvoting_recomends.send_time">Time when Mail has been sent</label>

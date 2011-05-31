@@ -364,6 +364,14 @@ $TCA['tx_mzvoting_recomends'] = array (
 				'size' => '30',
 			)
 		),
+		'url' => array (		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:mzvoting/locallang_db.xml:tx_mzvoting_recomends.url',		
+			'config' => array (
+				'type' => 'input',	
+				'size' => '50',
+			)
+		),
 		'vote' => array (		
 			'exclude' => 0,		
 			'label' => 'LLL:EXT:mzvoting/locallang_db.xml:tx_mzvoting_recomends.vote',		

@@ -45,7 +45,7 @@ CREATE TABLE tx_mzvoting_ranking (
 	tstamp int(11) DEFAULT '0' NOT NULL,
 	crdate int(11) DEFAULT '0' NOT NULL,
 	cruser_id int(11) DEFAULT '0' NOT NULL,
-	ranking_data tinytext,
+	ranking_data text,
 	voting_id int(11) DEFAULT '0' NOT NULL,
 	
 	PRIMARY KEY (uid),
@@ -91,6 +91,7 @@ CREATE TABLE tx_mzvoting_recomends (
 	from_mail tinytext,
 	from_name tinytext,
 	to_mail tinytext,
+	url varchar,
 	vote int(11) DEFAULT '0' NOT NULL,
 	status tinytext,
 	send_time int(11) DEFAULT '0' NOT NULL,
